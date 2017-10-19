@@ -77,7 +77,6 @@ scatterplot(ILLITERACY~PHONES_RATE, reg.line=FALSE, smooth=TRUE,
   spread=FALSE, boxplots=FALSE, span=0.5, ellipse=FALSE, levels=c(.5, .9),
   data=countries)
 
-
 europe = subset(countries, CONTINENT == "Europe")
 america = subset(countries, CONTINENT == "America")
 asia = subset(countries, CONTINENT == "Asia")
@@ -101,17 +100,56 @@ hist(africa$GDP_GROW_RATE, breaks=5, col="green", xlab="GDP GROW RATE", ylab="Fr
 hist(europe$GDP_GROW_RATE, breaks=5, col="yellow", xlab="GDP GROW RATE", ylab="Frequency", main="Europe")
 
 # Life expectation per continent
-
 continentDensity <- function(continent, continentName, color = "red"){
-  life.expectation = c(continent$WOMEN_LIFE_EXP, continent$MEM_LIFE_EXP)
+  life.expectation = (continent$WOMEN_LIFE_EXP + continent$MEM_LIFE_EXP)/2
   life.exp.den <- density (subset(life.expectation, !is.na(life.expectation)))
   plot(life.exp.den ,main= paste("Life expectation density in", continentName))
   polygon (life.exp.den , col=color, border ="black")
 }
 
-continentDensity(africa, "Africa", "purple")
-continentDensity(america, "America", "blue")
+par( mfrow =c(2,2))
+continentDensity(america, "America", "yellow")
 continentDensity(asia, "Asia", "red")
+continentDensity(africa, "Africa", "purple")
 continentDensity(europe, "Europe", "blue")
+
+# Continent main group
+continentMainGroup <- function(continent, continentName) {
+  freq = table(continent$MAIN_GROUP)
+  pie(freq, main = paste(continentName,"main group"))
+}
+
+par( mfrow =c(2,2))
+continentMainGroup(america, "America")
+continentMainGroup(asia, "Asia")
+continentMainGroup(africa, "Africa")
+continentMainGroup(europe, "Europe")
+
+# Continent's growth
+continentGrowth <- function(continent, continentName) {
+  growth = ifelse(continent$GDP_GROW_RATE==0, "Null", ifelse(continent$GDP_GROW_RATE < 1, "Negative", "Positive"))
+  growth.freq = table(growth)
+  pie(growth.freq, main = paste(continentName,"growth"))
+}
+
+par( mfrow =c(2,2))
+continentGrowth(america, "America")
+continentGrowth(asia, "Asia")
+continentGrowth(africa, "Africa")
+continentGrowth(europe, "Europe")
+
+countries[["GDP_MILLION_NORM"]] <- scale(countries$`GDP_MILLION_$`)
+countries[["GDP_GROW_RATE_NORM"]] <- scale(countries$`GDP_GROW_RATE`)
+countries[["GDP_PER_CAPITA_NORM"]] <- scale(countries$`GDP_$_PER_CAPITA`)
+countries[["NATURAL_GROWTH_NORM"]] <- scale(countries$`NATURAL_GROWTH`)
+
+# Negative correlation
+plot(NATURAL_GROWTH_NORM, GDP_PER_CAPITA_NORM)
+abline (lm(NATURAL_GROWTH_NORM~GDP_PER_CAPITA_NORM),col="red",lwd =4)
+
+# No correlation at all
+plot(NATURAL_GROWTH_NORM, GDP_GROW_RATE_NORM)
+abline (lm(NATURAL_GROWTH_NORM~GDP_GROW_RATE_NORM),col="red",lwd =4)
+
 
 ```
