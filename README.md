@@ -116,7 +116,7 @@ continentMainGroup <- function(continent, continentName) {
   pie(freq, main = paste(continentName,"main group"))
 }
 
-par( mfrow =c(2,2))
+par( mfrow =c(2,2))
 continentMainGroup(america, "America")
 continentMainGroup(asia, "Asia")
 continentMainGroup(africa, "Africa")
