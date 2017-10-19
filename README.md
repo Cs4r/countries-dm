@@ -13,11 +13,8 @@ library (moments)
 library(Rcmdr)
 attach(countries)
 
-
 # Show column names
 names(countries)
-
-# Countries with main group
 
 # gdp vs men and women life expectation
 xyplot(MEM_LIFE_EXP + WOMEN_LIFE_EXP ~ GDP_._PER_CAPITA, type="p", pch=16,
@@ -119,7 +116,7 @@ continentMainGroup <- function(continent, continentName) {
   pie(freq, main = paste(continentName,"main group"))
 }
 
-par( mfrow =c(2,2))
+par( mfrow =c(2,2))
 continentMainGroup(america, "America")
 continentMainGroup(asia, "Asia")
 continentMainGroup(africa, "Africa")
