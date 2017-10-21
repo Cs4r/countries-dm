@@ -13,11 +13,14 @@ library (moments)
 library(Rcmdr)
 attach(countries)
 
+# Show dimensions
+dim(countries)
+
 # Show column names
 names(countries)
 
 # gdp vs men and women life expectation
-xyplot(MEM_LIFE_EXP + WOMEN_LIFE_EXP ~ GDP_._PER_CAPITA, type="p", pch=16,
+xyplot(MEM_LIFE_EXP + WOMEN_LIFE_EXP ~ `GDP_$_PER_CAPITA`, type="p", pch=16,
 auto.key=list(border=TRUE), par.settings=simpleTheme(pch=16),
 scales=list(x=list(relation='same'), y=list(relation='same')), data=countries)
 
